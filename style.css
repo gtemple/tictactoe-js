@@ -1,0 +1,24 @@
+
+
+.board {
+    justify-content: center;
+    display: grid;
+    padding: 30px;
+    grid-gap: 10px;
+    grid-template-columns: repeat(3, minmax(60px, 100px));
+}
+
+.default-buttons {
+    padding: 5px 5px;
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 30px;
+    background-color: #555555;
+    border: none;
+
+}
+
+.default-buttons:hover {
+    color: black;
+    background-color: lightblue;
+}
