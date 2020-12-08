@@ -88,6 +88,32 @@ const playGame = () => {
     let currentUser = p1;
     let goFirst = p1;
 
+    let winCheck = (b, p) => {
+        let pattern = winConditions;
+        win = false;
+
+        for (let i = 0; i < pattern.length; i++) {
+            count3 = 0;
+            let three = pattern[i];
+            for(let j = 0; j < three.length; j++) {
+                if(b[three[j]] == p) {
+                    count3 += 1;
+                    console.log(b[three[j]] + ' is ' + count3)
+                    console.log(three)
+                    console.log(b)
+                };
+            };
+            console.log(count3)
+            if(count3 == 3) {
+                win = true;
+                console.log('yes')
+            } else {
+                count3 = 0;
+            };
+        };
+        return win;
+    };
+
     let changePiece = (e) => {
         btn = e.target 
         i = e.target.dataset.index
@@ -99,6 +125,7 @@ const playGame = () => {
             alert('This spot is already taken!')
         }
         console.log(currentUser)
+        winCheck(gBoard.board, currentUser.piece)
         currentUser == p1 ? currentUser = p2 : currentUser = p1;
     }
 
@@ -109,11 +136,12 @@ const playGame = () => {
 
     };
 
-    let winCheck = (b) => {
-
+    let playStart = () => {
+        playerMove();
     }
 
-    beginRound();
+    playStart();
+
 };
 
 let newGame = playGame()
