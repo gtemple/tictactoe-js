@@ -14,17 +14,17 @@
 }
 
 
-.default-buttons {
+.default-btns {
     padding: 5px 5px;
     color: white;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 30px;
+    font-size: 40px;
     background-color: #555555;
     border: none;
 
 }
 
-.default-buttons:hover {
+.default-btns:hover {
     color: black;
     background-color: lightblue;
 }

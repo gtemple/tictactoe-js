@@ -23,7 +23,7 @@ const gameBoard = () => {
     const newGame = () => {
         board = []
         while (board.length < 9) {
-            board.push(' ')
+            board.push('')
         };
         console.log(board)
     };
@@ -31,17 +31,20 @@ const gameBoard = () => {
     const printBoard = () => {
         while (htmlBoard.firstChild) htmlBoard.removeChild(htmlBoard.firstChild)  //clears board
 
+        i = 0;
         board.forEach((square) => {
             var btn = document.createElement('button')
-            btn.classList.add('default-buttons')
+            btn.classList.add('default-btns')
             btn.innerHTML = square
+            btn.dataset.index = i
             htmlBoard.appendChild(btn)
+            i++
         });
 
     }
 
     newGame();
-    return { newGame, printBoard };
+    return { board, newGame, printBoard };
 };
 
 const player = () => {
@@ -53,19 +56,24 @@ const player = () => {
 }
 
 const playGame = () => {
-    let g = gameBoard();
-    g.printBoard();
-
     let winConditions = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]];
+
+    let gBoard = gameBoard();
+    gBoard.printBoard();
+    let btns = document.querySelectorAll('.default-btns');
+    
 
     let nameInput = (n) => {
         let p = prompt(`Player ${n}, insert your name`, '')
-        console.log(typeof p)
         return p;
     };
 
-    let turnSwitch = (p) => {
+    let beginTurn = (p) => {
         return `${p}, it's your turn! Click on an empty space in the grid to place your piece.`;
+    };
+
+    let firstMove = () => {
+        (p1.score + p2.score) % 2 == 0 ? goFirst = p1 : goFirst = p2;
     };
 
     let p1 = player();
@@ -77,15 +85,36 @@ const playGame = () => {
     p2.name = nameInput(2);
     document.getElementById("player2").innerHTML = p2.name;
 
+    let currentUser = p1;
+    let goFirst = p1;
 
-    let beginRound = (playerA, playerB) => {
-         turnSwitch(playerA.name);
-         turnSwitch(playerB.name)
+    let changePiece = (e) => {
+        btn = e.target 
+        i = e.target.dataset.index
+        firstMove();
+        if (!btn.innerHTML) {
+            btn.innerHTML = currentUser.piece;
+            gBoard.board[i] = currentUser.piece;
+        } else {
+            alert('This spot is already taken!')
+        }
+        console.log(currentUser)
+        currentUser == p1 ? currentUser = p2 : currentUser = p1;
     }
 
-    playRound(p1, p2);
+    function playerMove() {
+        btns.forEach(btn => {
+            btn.addEventListener('click', changePiece);
+        });
+
+    };
+
+    let winCheck = (b) => {
+
+    }
+
+    beginRound();
 };
 
-let ng = playGame()
-
-ng
+let newGame = playGame()
+newGame
