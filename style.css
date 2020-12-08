@@ -1,4 +1,7 @@
 
+.container1 {
+    
+}
 
 .board {
     justify-content: center;
@@ -6,7 +9,10 @@
     padding: 30px;
     grid-gap: 10px;
     grid-template-columns: repeat(3, minmax(60px, 100px));
+    grid-template-rows: repeat(3, minmax(60px, 100px));
+
 }
+
 
 .default-buttons {
     padding: 5px 5px;
