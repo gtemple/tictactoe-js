@@ -1,20 +1,3 @@
-/* 
-FUNCTION NAMES AND USES
-
-    gameboard(): creates the new board and prints in window
-        newGame(): clears old board adds 9 empty divs
-        printboard(): prints in 3x3 format
-
-    player(): creates new player with name, pieces, and score starting at 0
-
-    playGame(): begins new game
-        - creates new gameboard
-        nameInput(): creates new player
-
-
-    
-*/
-
 let htmlBoard = document.querySelector('.board');
 
 const gameBoard = () => {
@@ -91,7 +74,7 @@ const playGame = () => {
 
     let updateScores = () => {
         document.getElementById("player1-score").innerHTML = p1.score;
-        document.getElementById("player2-score").innerHTML = p1.score;
+        document.getElementById("player2-score").innerHTML = p2.score;
     };
     
     updateScores();
@@ -121,7 +104,9 @@ const playGame = () => {
         let newGame = false;
         currentUser.score += 1;
         document.getElementById("game-prompt").innerHTML = currentUser.name + ' wins!, play again?';
-        console.log('it worked')
+        console.log('it worked');
+        win = false;
+        updateScores();
 
     };
 
