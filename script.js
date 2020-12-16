@@ -68,8 +68,9 @@ const playGame = () => {
         return p;
     };
 
-    let beginTurn = (p) => {
-        return `${p}, it's your turn! Click on an empty space in the grid to place your piece.`;
+    let beginTurn = (p, s) => {
+        let turnAlert = `${p}, it's your turn! Click on an empty space in the grid to place the ${s}.`;
+        document.getElementById("game-prompt").innerHTML = turnAlert;
     };
 
     let firstMove = () => {
@@ -80,13 +81,22 @@ const playGame = () => {
     p1.piece = 'x';
     p1.name = nameInput(1);
     document.getElementById("player1").innerHTML = p1.name;
+    
     let p2 = player()
     p2.piece = 'o';
     p2.name = nameInput(2);
     document.getElementById("player2").innerHTML = p2.name;
-
+    
     let currentUser = p1;
     let goFirst = p1;
+
+    let updateScores = () => {
+        document.getElementById("player1-score").innerHTML = p1.score;
+        document.getElementById("player2-score").innerHTML = p1.score;
+    };
+    
+    updateScores();
+    beginTurn(currentUser.name, currentUser.piece)
 
     let winCheck = (b, p) => {
         let pattern = winConditions;
@@ -127,6 +137,7 @@ const playGame = () => {
         console.log(currentUser)
         winCheck(gBoard.board, currentUser.piece)
         currentUser == p1 ? currentUser = p2 : currentUser = p1;
+        beginTurn(currentUser.name, currentUser.piece)
     }
 
     function playerMove() {
