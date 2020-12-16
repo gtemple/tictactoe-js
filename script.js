@@ -25,7 +25,6 @@ const gameBoard = () => {
         while (board.length < 9) {
             board.push('')
         };
-        console.log(board)
     };
 
     const printBoard = () => {
@@ -56,7 +55,7 @@ const player = () => {
 }
 
 const playGame = () => {
-    let winConditions = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]];
+    let winConditions = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
 
     let gBoard = gameBoard();
     gBoard.printBoard();
@@ -99,17 +98,17 @@ const playGame = () => {
     beginTurn(currentUser.name, currentUser.piece)
 
     let winCheck = (b, p) => {
-        let pattern = winConditions;
         win = false;
+        console.log(currentUser)
 
-        for (let i = 0; i < pattern.length; i++) {
+        for (let i = 0; i < winConditions.length; i++) {
             count3 = 0;
-            let three = pattern[i];
-            for(let j = 0; j < three.length; j++) {
-                if(b[three[j]] == p) {
+            winConditions[i];
+            for(let j = 0; j < winConditions[i].length; j++) {
+                if(b[winConditions[i][j]] == p) {
                     count3 += 1;
-                    console.log(b[three[j]] + ' is ' + count3)
-                    console.log(three)
+                    console.log(b[winConditions[i][j]] + ' is ' + count3)
+                    console.log(winConditions[i])
                     console.log(b)
                 };
             };
@@ -121,6 +120,7 @@ const playGame = () => {
                 count3 = 0;
             };
         };
+        console.log(win);
         return win;
     };
 
@@ -134,7 +134,6 @@ const playGame = () => {
         } else {
             alert('This spot is already taken!')
         }
-        console.log(currentUser)
         winCheck(gBoard.board, currentUser.piece)
         currentUser == p1 ? currentUser = p2 : currentUser = p1;
         beginTurn(currentUser.name, currentUser.piece)
