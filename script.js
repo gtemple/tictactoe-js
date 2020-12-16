@@ -56,7 +56,7 @@ const player = () => {
 
 const playGame = () => {
     let winConditions = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
-
+    let win = false;
     let gBoard = gameBoard();
     gBoard.printBoard();
     let btns = document.querySelectorAll('.default-btns');
@@ -98,21 +98,15 @@ const playGame = () => {
     beginTurn(currentUser.name, currentUser.piece)
 
     let winCheck = (b, p) => {
-        win = false;
-        console.log(currentUser)
-
         for (let i = 0; i < winConditions.length; i++) {
             count3 = 0;
             winConditions[i];
             for(let j = 0; j < winConditions[i].length; j++) {
                 if(b[winConditions[i][j]] == p) {
                     count3 += 1;
-                    console.log(b[winConditions[i][j]] + ' is ' + count3)
-                    console.log(winConditions[i])
-                    console.log(b)
                 };
             };
-            console.log(count3)
+
             if(count3 == 3) {
                 win = true;
                 console.log('yes')
@@ -121,7 +115,14 @@ const playGame = () => {
             };
         };
         console.log(win);
-        return win;
+    };
+
+    let playAgain = () => {
+        let newGame = false;
+        currentUser.score += 1;
+        document.getElementById("game-prompt").innerHTML = currentUser.name + ' wins!, play again?';
+        console.log('it worked')
+
     };
 
     let changePiece = (e) => {
@@ -131,12 +132,13 @@ const playGame = () => {
         if (!btn.innerHTML) {
             btn.innerHTML = currentUser.piece;
             gBoard.board[i] = currentUser.piece;
+            winCheck(gBoard.board, currentUser.piece)
+            if (win == true) { playAgain() };
+            currentUser == p1 ? currentUser = p2 : currentUser = p1;
+            beginTurn(currentUser.name, currentUser.piece);
         } else {
             alert('This spot is already taken!')
-        }
-        winCheck(gBoard.board, currentUser.piece)
-        currentUser == p1 ? currentUser = p2 : currentUser = p1;
-        beginTurn(currentUser.name, currentUser.piece)
+        };
     }
 
     function playerMove() {
