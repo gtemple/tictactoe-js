@@ -4,14 +4,12 @@ const gameBoard = () => {
 
     let board = []
     const newGame = () => {
-        board = []
         while (board.length < 9) {
             board.push('')
         };
     };
 
     const printBoard = () => {
-        while (htmlBoard.firstChild) htmlBoard.removeChild(htmlBoard.firstChild)  //clears board
 
         i = 0;
         board.forEach((square) => {
@@ -100,14 +98,20 @@ const playGame = () => {
         console.log(win);
     };
 
+
     let playAgain = () => {
+        let answer = window.confirm(currentUser.name + ' wins!, play again?')
         let newGame = false;
         currentUser.score += 1;
-        document.getElementById("game-prompt").innerHTML = currentUser.name + ' wins!, play again?';
-        console.log('it worked');
         win = false;
         updateScores();
-
+        answer;
+        if(answer) {
+            htmlBoard.innerHTML = ''
+            gBoard = gameBoard();
+            gBoard.printBoard();
+            playerMove();
+        };
     };
 
     let changePiece = (e) => {
@@ -133,11 +137,7 @@ const playGame = () => {
 
     };
 
-    let playStart = () => {
-        playerMove();
-    }
-
-    playStart();
+    playerMove();
 
 };
 
