@@ -53,10 +53,6 @@ const playGame = () => {
         document.getElementById("game-prompt").innerHTML = turnAlert;
     };
 
-    let firstMove = () => {
-        (p1.score + p2.score) % 2 == 0 ? goFirst = p1 : goFirst = p2;
-    };
-
     let p1 = player();
     p1.piece = 'x';
     p1.name = nameInput(1);
@@ -69,6 +65,17 @@ const playGame = () => {
     
     let currentUser = p1;
     let goFirst = p1;
+    let gamesPlayed = 0;
+
+    let firstMove = () => {
+        if (gamesPlayed % 2 == 0) {
+            goFirst = p1;
+            currentUser = p1;
+        } else {
+            goFirst = p2;
+            currentUser = p2;
+        };
+    };
 
     let updateScores = () => {
         document.getElementById("player1-score").innerHTML = p1.score;
@@ -90,18 +97,16 @@ const playGame = () => {
 
             if(count3 == 3) {
                 win = true;
-                console.log('yes')
             } else {
                 count3 = 0;
             };
         };
-        console.log(win);
     };
-
 
     let playAgain = () => {
         let answer = window.confirm(currentUser.name + ' wins!, play again?')
         let newGame = false;
+        gamesPlayed += 1;
         currentUser.score += 1;
         win = false;
         updateScores();
@@ -110,6 +115,10 @@ const playGame = () => {
             htmlBoard.innerHTML = ''
             gBoard = gameBoard();
             gBoard.printBoard();
+            btns = document.querySelectorAll('.default-btns');
+            console.log(gamesPlayed)
+            firstMove();
+            console.log(goFirst)
             playerMove();
         };
     };
@@ -117,17 +126,17 @@ const playGame = () => {
     let changePiece = (e) => {
         btn = e.target 
         i = e.target.dataset.index
-        firstMove();
         if (!btn.innerHTML) {
             btn.innerHTML = currentUser.piece;
             gBoard.board[i] = currentUser.piece;
             winCheck(gBoard.board, currentUser.piece)
-            if (win == true) { playAgain() };
             currentUser == p1 ? currentUser = p2 : currentUser = p1;
+            if (win == true) { playAgain() };
             beginTurn(currentUser.name, currentUser.piece);
         } else {
-            alert('This spot is already taken!')
+            alert('This spot is already taken!');
         };
+        console.log('howdyboy')
     }
 
     function playerMove() {
