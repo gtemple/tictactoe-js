@@ -5,7 +5,7 @@ const gameBoard = () => {
     let board = []
     const newGame = () => {
         while (board.length < 9) {
-            board.push('')
+            board.push('');
         };
     };
 
@@ -66,6 +66,7 @@ const playGame = () => {
     let currentUser = p1;
     let goFirst = p1;
     let gamesPlayed = 0;
+    let turnsCompleted = 0;
 
     let firstMove = () => {
         if (gamesPlayed % 2 == 0) {
@@ -103,11 +104,12 @@ const playGame = () => {
         };
     };
 
-    let playAgain = () => {
-        let answer = window.confirm(currentUser.name + ' wins!, play again?')
+    let playAgainWin = () => {
+        let answer = window.confirm(currentUser.name + ' wins! Play again?')
         let newGame = false;
         gamesPlayed += 1;
         currentUser.score += 1;
+        turnsCompleted = 0;
         win = false;
         updateScores();
         answer;
@@ -116,9 +118,25 @@ const playGame = () => {
             gBoard = gameBoard();
             gBoard.printBoard();
             btns = document.querySelectorAll('.default-btns');
-            console.log(gamesPlayed)
+            
             firstMove();
-            console.log(goFirst)
+            playerMove();
+        };
+    };
+
+    let playAgainTie = () => {
+        let answer = window.confirm('Looks like it\'s a tie! Play again?')
+        let newGame = false;
+        gamesPlayed += 1;
+        updateScores();
+        answer;
+        if(answer) {
+            htmlBoard.innerHTML = ''
+            gBoard = gameBoard();
+            gBoard.printBoard();
+            btns = document.querySelectorAll('.default-btns');
+            turnsCompleted = 0;
+            firstMove();
             playerMove();
         };
     };
@@ -129,9 +147,11 @@ const playGame = () => {
         if (!btn.innerHTML) {
             btn.innerHTML = currentUser.piece;
             gBoard.board[i] = currentUser.piece;
+            turnsCompleted += 1
             winCheck(gBoard.board, currentUser.piece)
             currentUser == p1 ? currentUser = p2 : currentUser = p1;
-            if (win == true) { playAgain() };
+            if (win == true) { playAgainWin() };
+            if (turnsCompleted == 9 ) { playAgainTie() };
             beginTurn(currentUser.name, currentUser.piece);
         } else {
             alert('This spot is already taken!');
@@ -143,7 +163,6 @@ const playGame = () => {
         btns.forEach(btn => {
             btn.addEventListener('click', changePiece);
         });
-
     };
 
     playerMove();
